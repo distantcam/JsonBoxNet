@@ -1,12 +1,10 @@
 name: .NET Core
 
-on: [push]
+on: push
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v1    
     - name: Build with dotnet
@@ -18,5 +16,6 @@ jobs:
     - name: Build NuGet Package
       run: dotnet pack --include-symbols --configuration Release -o NuGetPackages
       working-directory: ./source
-    - name: Deploy NuGet Package
+    - name: Push NuGet Package
+      if: github.event_name == 'push' && github.ref == 'refs/tags/[0-9]+.[0-9]+.[0-9]+'
       run: dotnet nuget push .\source\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
