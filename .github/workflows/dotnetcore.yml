@@ -19,4 +19,4 @@ jobs:
       run: dotnet pack --configuration Release -o NuGetPackages
       working-directory: ./source
     - name: Deploy NuGet Package
-      run: dotnet nuget push .\source\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push .\source\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v2/
