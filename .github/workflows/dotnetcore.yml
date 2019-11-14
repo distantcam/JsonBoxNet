@@ -16,6 +16,11 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release
       working-directory: ./source
-    - name: Unit Tests
+    - name: Run unit tests
       run: dotnet test
       working-directory: ./source
+    - name: Build NuGet Package
+      run: dotnet pack --configuration Release -o NuGetPackages
+      working-directory: ./source
+    - name: Deploy NuGet Package
+      run: dotnet nuget push ./source/NuGetPackages/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
