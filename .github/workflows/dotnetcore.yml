@@ -16,7 +16,7 @@ jobs:
       run: dotnet test
       working-directory: ./source
     - name: Build NuGet Package
-      run: dotnet pack --configuration Release -o NuGetPackages
+      run: dotnet pack --include-symbols --configuration Release -o NuGetPackages
       working-directory: ./source
     - name: Deploy NuGet Package
-      run: dotnet nuget push .\source\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v2/
+      run: dotnet nuget push .\source\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

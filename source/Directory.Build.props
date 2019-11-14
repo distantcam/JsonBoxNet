@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>	
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>	
     <Authors>Cameron MacFarland</Authors>
     <PackageTags>jsonbox json api</PackageTags>
     <Copyright>Copyright ©2019 Cameron MacFarland</Copyright>
