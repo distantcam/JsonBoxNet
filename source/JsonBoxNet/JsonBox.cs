@@ -15,10 +15,10 @@ namespace JsonBoxNet
 
 		public async Task<IJsonBoxRecord<T>> CreateAsync<T>(T value) => CreateRecord<T>(await client.CreateAsync(SerializeToString(value)));
 		public async Task<IJsonBoxRecord<T>> CreateAsync<T>(string collection, T value) => CreateRecord<T>(await client.CreateAsync(collection, SerializeToString(value)));
-		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(IEnumerable<T> values) => CreateRecords<T>(await client.CreateAsync(SerializeToString(values)));
-		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(string collection, IEnumerable<T> values) => CreateRecords<T>(await client.CreateAsync(collection, SerializeToString(values)));
-		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(params T[] values) => CreateRecords<T>(await client.CreateAsync(SerializeToString(values)));
-		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(string collection, params T[] values) => CreateRecords<T>(await client.CreateAsync(collection, SerializeToString(values)));
+		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(IEnumerable<T> values) => CreateRecords<T>(await client.CreateAsync(SerializeToString(values)));
+		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(string collection, IEnumerable<T> values) => CreateRecords<T>(await client.CreateAsync(collection, SerializeToString(values)));
+		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(params T[] values) => CreateRecords<T>(await client.CreateAsync(SerializeToString(values)));
+		public async Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(string collection, params T[] values) => CreateRecords<T>(await client.CreateAsync(collection, SerializeToString(values)));
 
 		public async Task<IJsonBoxMessage> UpdateAsync<T>(string id, T value) => CreateMessage(await client.UpdateAsync(SerializeToString(value), id));
 		public async Task<IJsonBoxMessage> DeleteAsync(string id) => CreateMessage(await client.DeleteAsync(id));

@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace JsonBoxNet.Tests
 {
 	[TestFixture]
-	public class CreateFixture
+	public class CreateCollectionFixture
 	{
 		static readonly HttpClient httpClient = new HttpClient();
 
@@ -26,7 +26,7 @@ namespace JsonBoxNet.Tests
 		public async Task CreateRecord()
 		{
 			var item = new TestObject { Name = "Foo", Age = 13 };
-			var record = await jsonBox.CreateAsync(item);
+			var record = await jsonBox.CreateAsync("collection", item);
 
 			Assert.AreEqual(item.Name, record.Value.Name);
 			Assert.AreEqual(item.Age, record.Value.Age);
@@ -35,11 +35,11 @@ namespace JsonBoxNet.Tests
 		}
 
 		[Test]
-		public async Task CreateMultipleRecord1()
+		public async Task CreateManyRecord1()
 		{
 			var item1 = new TestObject { Name = "Foo", Age = 13 };
 			var item2 = new TestObject { Name = "Bar", Age = 15 };
-			var records = (await jsonBox.CreateManyAsync(item1, item2)).ToArray();
+			var records = (await jsonBox.CreateManyAsync("collection", item1, item2)).ToArray();
 
 			Assert.AreEqual(item1.Name, records[0].Value.Name);
 			Assert.AreEqual(item1.Age, records[0].Value.Age);
@@ -53,11 +53,11 @@ namespace JsonBoxNet.Tests
 		}
 
 		[Test]
-		public async Task CreateMultipleRecord2()
+		public async Task CreateManyRecord2()
 		{
 			var item1 = new TestObject { Name = "Foo", Age = 13 };
 			var item2 = new TestObject { Name = "Bar", Age = 15 };
-			var records = (await jsonBox.CreateManyAsync<TestObject>(new List<TestObject> { item1, item2 })).ToArray();
+			var records = (await jsonBox.CreateManyAsync<TestObject>("collection", new List<TestObject> { item1, item2 })).ToArray();
 
 			Assert.AreEqual(item1.Name, records[0].Value.Name);
 			Assert.AreEqual(item1.Age, records[0].Value.Age);
@@ -68,6 +68,16 @@ namespace JsonBoxNet.Tests
 			Assert.AreEqual(item2.Age, records[1].Value.Age);
 			Assert.AreNotEqual(default(DateTime), records[1].CreatedOn);
 			Assert.Null(records[1].UpdatedOn);
+		}
+
+		[Test]
+		public void CollectionNameTooLong()
+		{
+			var item = new TestObject { Name = "Foo", Age = 13 };
+
+			Assert.ThrowsAsync(typeof(ArgumentException), async () => await jsonBox.CreateAsync("collection_collection", item));
+			Assert.ThrowsAsync(typeof(ArgumentException), async () => await jsonBox.CreateManyAsync("collection_collection", item));
+			Assert.ThrowsAsync(typeof(ArgumentException), async () => await jsonBox.CreateManyAsync("collection_collection", new List<TestObject> { item }));
 		}
 
 		[TearDown]

@@ -65,7 +65,7 @@ namespace JsonBoxNet
 		string CreateCollectionUrl(string collection)
 		{
 			if (collection.Length > 20)
-				throw new ArgumentException("The collection must be less than 20 characters", nameof(collection));
+				throw new ArgumentException("The collection must be less than or equal to 20 characters", nameof(collection));
 
 			var url = baseUrl;
 			if (!string.IsNullOrEmpty(collection))

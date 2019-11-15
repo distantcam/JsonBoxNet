@@ -7,10 +7,10 @@ namespace JsonBoxNet
 	{
 		Task<IJsonBoxRecord<T>> CreateAsync<T>(T value);
 		Task<IJsonBoxRecord<T>> CreateAsync<T>(string collection, T value);
-		Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(params T[] values);
-		Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(string collection, params T[] values);
-		Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(IEnumerable<T> values);
-		Task<IEnumerable<IJsonBoxRecord<T>>> CreateMultipleAsync<T>(string collection, IEnumerable<T> values);
+		Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(params T[] values);
+		Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(string collection, params T[] values);
+		Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(IEnumerable<T> values);
+		Task<IEnumerable<IJsonBoxRecord<T>>> CreateManyAsync<T>(string collection, IEnumerable<T> values);
 
 		Task<IJsonBoxMessage> UpdateAsync<T>(string id, T value);
 		Task<IJsonBoxMessage> DeleteAsync(string id);
