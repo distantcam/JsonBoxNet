@@ -15,15 +15,16 @@ namespace JsonBoxNet
 		{
 			if (!IsValid(boxId))
 				throw new ArgumentException("The box id should contain only alphanumeric characters and _", nameof(boxId));
-			if (boxId.Length < 20)
-				throw new ArgumentException("The box id should be at least 20 character long", nameof(boxId));
+			if (boxId.Length < 20 || boxId.Length > 64)
+				throw new ArgumentException("The box id must be at least 20 characters, and no more than 64", nameof(boxId));
 
 			this.httpClient = httpClient;
 			baseUrl = "https://jsonbox.io/" + boxId;
 		}
 
 		public Task<string> CreateAsync(string json) => HandleRequest(HttpMethod.Post, baseUrl, json);
-		public Task<string> UpdateAsync(string json, string id) => HandleRequest(HttpMethod.Put, CreateIdUrl(id), json);
+		public Task<string> CreateAsync(string collection, string json) => HandleRequest(HttpMethod.Post, CreateCollectionUrl(collection), json);
+		public Task<string> UpdateAsync(string id, string json) => HandleRequest(HttpMethod.Put, CreateIdUrl(id), json);
 		public Task<string> DeleteAsync(string id) => HandleRequest(HttpMethod.Delete, CreateIdUrl(id));
 		public Task<string> DeleteQueryAsync(params string[] queries) => HandleRequest(HttpMethod.Delete, AppendFilter(baseUrl, null, null, null, queries));
 
@@ -63,6 +64,9 @@ namespace JsonBoxNet
 
 		string CreateCollectionUrl(string collection)
 		{
+			if (collection.Length > 20)
+				throw new ArgumentException("The collection must be less than 20 characters", nameof(collection));
+
 			var url = baseUrl;
 			if (!string.IsNullOrEmpty(collection))
 			{

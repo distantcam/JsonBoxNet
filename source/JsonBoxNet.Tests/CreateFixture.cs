@@ -39,7 +39,7 @@ namespace JsonBoxNet.Tests
 		{
 			var item1 = new TestObject { Name = "Foo", Age = 13 };
 			var item2 = new TestObject { Name = "Bar", Age = 15 };
-			var records = (await jsonBox.CreateAsync(item1, item2)).ToArray();
+			var records = (await jsonBox.CreateMultipleAsync(item1, item2)).ToArray();
 
 			Assert.AreEqual(item1.Name, records[0].Value.Name);
 			Assert.AreEqual(item1.Age, records[0].Value.Age);
@@ -57,7 +57,7 @@ namespace JsonBoxNet.Tests
 		{
 			var item1 = new TestObject { Name = "Foo", Age = 13 };
 			var item2 = new TestObject { Name = "Bar", Age = 15 };
-			var records = (await jsonBox.CreateAsync<TestObject>(new List<TestObject> { item1, item2 })).ToArray();
+			var records = (await jsonBox.CreateMultipleAsync<TestObject>(new List<TestObject> { item1, item2 })).ToArray();
 
 			Assert.AreEqual(item1.Name, records[0].Value.Name);
 			Assert.AreEqual(item1.Age, records[0].Value.Age);

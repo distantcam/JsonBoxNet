@@ -5,7 +5,8 @@ namespace JsonBoxNet
 	public interface IJsonBoxClient
 	{
 		Task<string> CreateAsync(string json);
-		Task<string> UpdateAsync(string json, string id);
+		Task<string> CreateAsync(string collection, string json);
+		Task<string> UpdateAsync(string id, string json);
 		Task<string> DeleteAsync(string id);
 		Task<string> DeleteQueryAsync(params string[] queries);
 
