@@ -6,9 +6,11 @@ namespace JsonBoxNet
 	public interface IJsonBox
 	{
 		Task<IEnumerable<IJsonBoxRecord<T>>> CreateAsync<T>(IEnumerable<T> values);
+		Task<IEnumerable<IJsonBoxRecord<T>>> CreateAsync<T>(params T[] values);
 		Task<IJsonBoxRecord<T>> CreateAsync<T>(T value);
-		Task UpdateAsync<T>(T value, string id);
-		Task DeleteAsync(string id);
+		Task<IJsonBoxMessage> UpdateAsync<T>(T value, string id);
+		Task<IJsonBoxMessage> DeleteAsync(string id);
+		Task<IJsonBoxMessage> DeleteQueryAsync(params string[] queries);
 
 		Task<IEnumerable<IJsonBoxRecord<T>>> GetAllAsync<T>();
 		Task<IEnumerable<IJsonBoxRecord<T>>> GetAsync<T>(string sort = null, int? skip = null, int? limit = null, params string[] queries);

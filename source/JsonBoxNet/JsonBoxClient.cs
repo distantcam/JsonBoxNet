@@ -23,13 +23,15 @@ namespace JsonBoxNet
 		}
 
 		public Task<string> CreateAsync(string json) => HandleRequest(HttpMethod.Post, baseUrl, json);
+		public Task<string> UpdateAsync(string json, string id) => HandleRequest(HttpMethod.Put, CreateIdUrl(id), json);
+		public Task<string> DeleteAsync(string id) => HandleRequest(HttpMethod.Delete, CreateIdUrl(id));
+		public Task<string> DeleteQueryAsync(params string[] queries) => HandleRequest(HttpMethod.Delete, AppendFilter(baseUrl, null, null, null, queries));
+
 		public Task<string> GetAsync(string sort = null, int? skip = null, int? limit = null, params string[] queries) => HandleRequest(HttpMethod.Get, AppendFilter(baseUrl, sort, skip, limit, queries));
 		public Task<string> GetAllAsync() => HandleRequest(HttpMethod.Get, baseUrl);
 		public Task<string> GetCollectionAsync(string collection) => HandleRequest(HttpMethod.Get, CreateCollectionUrl(collection));
 		public Task<string> GetCollectionAsync(string collection, string sort = null, int? skip = null, int? limit = null, params string[] queries) => HandleRequest(HttpMethod.Get, AppendFilter(CreateCollectionUrl(collection), sort, skip, limit, queries));
 		public Task<string> GetByIdAsync(string id) => HandleRequest(HttpMethod.Get, CreateIdUrl(id));
-		public Task<string> UpdateAsync(string json, string id) => HandleRequest(HttpMethod.Put, CreateIdUrl(id), json);
-		public Task<string> DeleteAsync(string id) => HandleRequest(HttpMethod.Delete, CreateIdUrl(id));
 
 		async Task<string> HandleRequest(HttpMethod method, string url, string json = null)
 		{

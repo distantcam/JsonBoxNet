@@ -23,6 +23,13 @@ namespace JsonBoxNet
 			private string DebuggerDisplay => $"[{Id}] - Created {CreatedOn}";
 		}
 
+		class JsonBoxMessage : IJsonBoxMessage
+		{
+			[JsonProperty("message")] public string Message { get; set; }
+
+			public override string ToString() => Message;
+		}
+
 		readonly JsonSerializer serializer;
 
 		public NewtonsoftJsonBox(HttpClient httpClient, string boxId, JsonSerializer serializer) : base(httpClient, boxId)
@@ -56,5 +63,7 @@ namespace JsonBoxNet
 			}).ToArray();
 			return records;
 		}
+
+		protected override IJsonBoxMessage CreateMessage(string json) => (IJsonBoxMessage)serializer.Deserialize(new StringReader(json), typeof(JsonBoxMessage));
 	}
 }

@@ -7,6 +7,7 @@ namespace JsonBoxNet
 		Task<string> CreateAsync(string json);
 		Task<string> UpdateAsync(string json, string id);
 		Task<string> DeleteAsync(string id);
+		Task<string> DeleteQueryAsync(params string[] queries);
 
 		Task<string> GetAsync(string sort = null, int? skip = null, int? limit = null, params string[] queries);
 		Task<string> GetAllAsync();
