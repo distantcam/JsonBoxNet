@@ -22,4 +22,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: .\source\NuGetPackages\*.nupkg
+        files: |
+          .\source\NuGetPackages\*.nupkg
+          .\source\NuGetPackages\*.snupkg
