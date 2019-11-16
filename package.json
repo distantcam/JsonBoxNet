@@ -1,0 +1,11 @@
+{
+  "name": "jsonboxnet",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "docisfy serve docs"
+  },
+  "devDependencies": {
+    "docsify-cli": "^4.3.0"
+  }
+}
