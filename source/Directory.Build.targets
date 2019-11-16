@@ -2,6 +2,7 @@
 
   <PropertyGroup Condition="'$(IsTest)' != 'true'">
     <DocumentationFile>$(OutputPath)/$(MSBuildProjectName).xml</DocumentationFile>
+    <DocumentationMarkdown>$(MSBuildThisFileDirectory)../output/docs/$(MSBuildProjectName).md</DocumentationMarkdown>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTest)' != 'true'">
@@ -10,5 +11,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
+  <Target Name="CreateDocsDir" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(MSBuildThisFileDirectory)../output/docs"/>
+  </Target>
 
 </Project>

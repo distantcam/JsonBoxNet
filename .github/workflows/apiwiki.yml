@@ -1,0 +1,21 @@
+name: Update Wiki Api
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      working-directory: ./source
+    - name: Upload Release Notes to Wiki
+      uses: docker://decathlon/wiki-page-creator-action:latest
+      env:
+        ACTION_MAIL: distantcam@users.noreply.github.com
+        ACTION_NAME: distantcam
+        GH_PAT: ${{ secrets.WIKI_KEY }}
+        MD_FOLDER: ./output/docs
+        OWNER: distantcam
+        REPO_NAME: jsonboxnet
