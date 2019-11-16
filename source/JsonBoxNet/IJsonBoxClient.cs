@@ -4,6 +4,9 @@ namespace JsonBoxNet
 {
 	public interface IJsonBoxClient
 	{
+		/// <summary>
+		/// Create a new json record.
+		/// </summary>
 		Task<string> CreateAsync(string json);
 		Task<string> CreateAsync(string collection, string json);
 		Task<string> UpdateAsync(string id, string json);
