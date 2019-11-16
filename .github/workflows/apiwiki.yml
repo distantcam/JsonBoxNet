@@ -4,14 +4,14 @@ on: push
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Build with dotnet
       run: dotnet build --configuration Release
       working-directory: ./source
-    - name: Upload Release Notes to Wiki
-      uses: docker://decathlon/wiki-page-creator-action:latest
+    - name: Upload API docs to Wiki
+      uses: awact/wiki-action@master
       env:
         ACTION_MAIL: distantcam@users.noreply.github.com
         ACTION_NAME: distantcam
