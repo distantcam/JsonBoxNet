@@ -4,23 +4,4 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>	
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>	
-    <Authors>Cameron MacFarland</Authors>
-    <PackageTags>jsonbox json api</PackageTags>
-    <Copyright>Copyright ©2019 Cameron MacFarland</Copyright>
-    <Description>A client for using https://jsonbox.io/</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/distantcam/JsonBoxNet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/distantcam/JsonBoxNet</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
 </Project>

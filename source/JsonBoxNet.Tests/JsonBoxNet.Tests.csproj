@@ -4,7 +4,6 @@
     <TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netcoreapp3.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <IsTest>true</IsTest>
   </PropertyGroup>
 
   <ItemGroup>
