@@ -16,11 +16,6 @@ jobs:
     - name: Build NuGet Package
       run: dotnet pack --include-symbols --configuration Release
       working-directory: ./source
-    - name: Archive nuget artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: nugets
-        path: .\nugets
     - name: Create Release
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
