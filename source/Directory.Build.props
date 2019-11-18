@@ -1,7 +1,24 @@
 <Project>
 
   <PropertyGroup>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>8.0</LangVersion>
+    <!-- <Nullable>enable</Nullable> -->
+    <!-- <DebugType>embedded</DebugType> -->
+    <!-- <DebugSymbols>true</DebugSymbols> -->
+    <IsPackable>false</IsPackable>
+
+    <RepoDir>$(SolutionDir)</RepoDir>
+    <RepoDir Condition="Exists('$(SolutionDir)..\.git')">$(SolutionDir)..\</RepoDir>
+    <RepoOwner>distantcam</RepoOwner>
+    <RepoName>jsonboxnet</RepoName>
+
+    <Authors>Cameron MacFarland</Authors>
+    <Description>A client for using https://jsonbox.io/</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests')) Or $(MSBuildProjectName.Contains('Sample')) Or '$(MSBuildProjectName)' == 'Tests' Or '$(MSBuildProjectName)' == 'Helpers' Or '$(MSBuildProjectName)' == 'Shared' Or '$(MSBuildProjectName)' == 'Snippets'">
+    <IsPackageProject>false</IsPackageProject>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
 </Project>

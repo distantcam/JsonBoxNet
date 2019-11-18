@@ -1,34 +1,30 @@
 <Project>
 
-  <PropertyGroup Condition="'$(IsLibrary)' == 'true'">
-    <DocumentationFile>$(OutputPath)/$(MSBuildProjectName).xml</DocumentationFile>
-    <DocumentationMarkdown>$(MSBuildThisFileDirectory)../docs/api/$(MSBuildProjectName).md</DocumentationMarkdown>
+  <PropertyGroup Condition="$(IsPackageProject) == true And $(Configuration) == 'Release'">
+    <IsPackable>true</IsPackable>
+
+    <PackageOutputPath>$(RepoDir)nugets</PackageOutputPath>
+    <PackageLicenseExpression Condition="'$(PackageLicenseFile)' == ''">MIT</PackageLicenseExpression>
+
+    <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved.</Copyright>
 
     <IncludeSymbols>true</IncludeSymbols>	
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>	
-    <Authors>Cameron MacFarland</Authors>
-    <PackageTags>jsonbox json api</PackageTags>
-    <Copyright>Copyright ©2019 Cameron MacFarland</Copyright>
-    <Description>A client for using https://jsonbox.io/</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/distantcam/JsonBoxNet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/distantcam/JsonBoxNet</RepositoryUrl>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <RepositoryUrl>https://github.com/$(RepoOwner)/$(RepoName)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+
+    <PackageIcon>icon.png</PackageIcon>
+
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsLibrary)' == 'true'">
-    <PackageReference Include="Vsxmd" Version="1.4.2">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-
-    <None Include="..\..\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
+  <ItemGroup Condition="$(IsPackageProject) == true And $(Configuration) == 'Release'">
+    <None Include="$(RepoDir)icon.png" Link="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <Target Name="CreateDocsDir" BeforeTargets="BeforeBuild">
-    <MakeDir Directories="$(MSBuildThisFileDirectory)../docs/api"/>
-  </Target>
+  <PropertyGroup Condition="$(IsPackageProject) == false">
+    <Optimize>False</Optimize>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
 
 </Project>
