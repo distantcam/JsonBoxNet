@@ -14,8 +14,13 @@ jobs:
       run: dotnet test
       working-directory: ./source
     - name: Build NuGet Package
-      run: dotnet pack --include-symbols --configuration Release -o ../output/NuGetPackages
+      run: dotnet pack --include-symbols --configuration Release
       working-directory: ./source
+    - name: Archive nuget artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: nugets
+        path: nugets
     - name: Create Release
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
@@ -23,8 +28,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         files: |
-          .\output\NuGetPackages\*.nupkg
-          .\output\NuGetPackages\*.snupkg
+          .\nugets\*.nupkg
+          .\nugets\*.snupkg
     - name: Push NuGet Package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-      run: dotnet nuget push .\output\NuGetPackages\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push .\nugets\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

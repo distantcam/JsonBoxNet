@@ -8,13 +8,15 @@
 
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved.</Copyright>
 
-    <IncludeSymbols>true</IncludeSymbols>	
+    <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <RepositoryUrl>https://github.com/$(RepoOwner)/$(RepoName)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
 
     <PackageIcon>icon.png</PackageIcon>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
   </PropertyGroup>
 
