@@ -11,6 +11,11 @@ namespace JsonBoxNet
 		readonly HttpClient httpClient;
 		readonly string baseUrl;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="JsonBoxClient"/> class using a <paramref name="httpClient"/>.
+		/// </summary>
+		/// <param name="httpClient">The <see cref="HttpClient"/> to use for the web calls.</param>
+		/// <param name="boxId">The id of the box to use.</param>
 		public JsonBoxClient(HttpClient httpClient, string boxId)
 		{
 			if (!IsValid(boxId))

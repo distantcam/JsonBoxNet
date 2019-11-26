@@ -32,6 +32,12 @@ namespace JsonBoxNet
 
 		readonly JsonSerializer serializer;
 
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="httpClient"></param>
+		/// <param name="boxId"></param>
+		/// <param name="serializer"></param>
 		public NewtonsoftJsonBox(HttpClient httpClient, string boxId, JsonSerializer serializer) : base(httpClient, boxId)
 		{
 			this.serializer = serializer;
