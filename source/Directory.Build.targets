@@ -3,6 +3,7 @@
   <PropertyGroup Condition="'$(IsPackageProject)' == 'true' And '$(Configuration)' == 'Release'">
     <IsPackable>true</IsPackable>
     <Version>0.0.0</Version>
+    <DocumentationFile>$(OutDir)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <!-- Nuget: https://docs.microsoft.com/en-us/dotnet/core/tools/csproj#nuget-metadata-properties -->
