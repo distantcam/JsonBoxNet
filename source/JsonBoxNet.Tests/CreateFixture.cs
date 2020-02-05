@@ -3,78 +3,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoFixture;
+using FluentAssertions;
+using JsonBoxNet.TextJson;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RichardSzalay.MockHttp;
 
 namespace JsonBoxNet.Tests
 {
 	[TestFixture]
-	public class CreateFixture
+	public abstract class CreateFixtureBase
 	{
-		static readonly HttpClient httpClient = new HttpClient();
+		protected abstract JsonBox CreateJsonBox(HttpClient client);
 
-		IJsonBox jsonBox;
-
-		[SetUp]
-		public void Setup()
+		JsonBox CreateJsonBox(string json)
 		{
-			var serializer = new JsonSerializer();
-			jsonBox = new NewtonsoftJsonBox(httpClient, "testbox___jsonboxnet", serializer);
+			var mockHttp = new MockHttpMessageHandler();
+			mockHttp.Expect(HttpMethod.Post, "/testbox___jsonboxnet")
+				.Respond("application/json", json);
+			return CreateJsonBox(mockHttp.ToHttpClient());
 		}
 
 		[Test]
 		public async Task CreateRecord()
 		{
-			var item = new TestObject { Name = "Foo", Age = 13 };
+			// Arrange
+			var fixture = new Fixture();
+			var item = fixture.Create<TestObject>();
+
+			var id = Guid.NewGuid();
+			var wrapper = JObject.Parse($"{{'_id': '{id}'}}");
+			var itemJson = JObject.FromObject(item);
+			wrapper.Merge(itemJson);
+
+			var jsonBox = CreateJsonBox(wrapper.ToString());
+
+			// Act
 			var record = await jsonBox.CreateAsync(item);
 
-			Assert.AreEqual(item.Name, record.Value.Name);
-			Assert.AreEqual(item.Age, record.Value.Age);
-			Assert.AreNotEqual(default(DateTime), record.CreatedOn);
-			Assert.Null(record.UpdatedOn);
+			// Assert
+			record.Value.Should().BeEquivalentTo(item);
+			record.Id.Should().Be(id.ToString());
+			record.UpdatedOn.Should().BeNull();
 		}
 
 		[Test]
-		public async Task CreateMultipleRecord1()
+		public async Task CreateMultipleRecords_UsingArray()
 		{
-			var item1 = new TestObject { Name = "Foo", Age = 13 };
-			var item2 = new TestObject { Name = "Bar", Age = 15 };
+			// Arrange
+			var fixture = new Fixture();
+			var item1 = fixture.Create<TestObject>();
+			var item2 = fixture.Create<TestObject>();
+
+			var jsonBox = CreateJsonBox(JsonConvert.SerializeObject(new object[] { item1, item2 }));
+
+			// Act
 			var records = (await jsonBox.CreateManyAsync(item1, item2)).ToArray();
 
-			Assert.AreEqual(item1.Name, records[0].Value.Name);
-			Assert.AreEqual(item1.Age, records[0].Value.Age);
-			Assert.AreNotEqual(default(DateTime), records[0].CreatedOn);
-			Assert.Null(records[0].UpdatedOn);
-
-			Assert.AreEqual(item2.Name, records[1].Value.Name);
-			Assert.AreEqual(item2.Age, records[1].Value.Age);
-			Assert.AreNotEqual(default(DateTime), records[1].CreatedOn);
-			Assert.Null(records[1].UpdatedOn);
+			// Assert
+			records[0].Value.Should().BeEquivalentTo(item1);
+			records[1].Value.Should().BeEquivalentTo(item2);
 		}
 
 		[Test]
-		public async Task CreateMultipleRecord2()
+		public async Task CreateMultipleRecords_UsingList()
 		{
-			var item1 = new TestObject { Name = "Foo", Age = 13 };
-			var item2 = new TestObject { Name = "Bar", Age = 15 };
-			var records = (await jsonBox.CreateManyAsync<TestObject>(new List<TestObject> { item1, item2 })).ToArray();
+			// Arrange
+			var fixture = new Fixture();
+			var item1 = fixture.Create<TestObject>();
+			var item2 = fixture.Create<TestObject>();
 
-			Assert.AreEqual(item1.Name, records[0].Value.Name);
-			Assert.AreEqual(item1.Age, records[0].Value.Age);
-			Assert.AreNotEqual(default(DateTime), records[0].CreatedOn);
-			Assert.Null(records[0].UpdatedOn);
+			var jsonBox = CreateJsonBox(JsonConvert.SerializeObject(new List<TestObject> { item1, item2 }));
 
-			Assert.AreEqual(item2.Name, records[1].Value.Name);
-			Assert.AreEqual(item2.Age, records[1].Value.Age);
-			Assert.AreNotEqual(default(DateTime), records[1].CreatedOn);
-			Assert.Null(records[1].UpdatedOn);
+			// Act
+			var records = (await jsonBox.CreateManyAsync(item1, item2)).ToArray();
+
+			// Assert
+			records[0].Value.Should().BeEquivalentTo(item1);
+			records[1].Value.Should().BeEquivalentTo(item2);
 		}
+	}
 
-		[TearDown]
-		public async Task Teardown()
-		{
-			await httpClient.DeleteAsync("https://jsonbox.io/testbox___jsonboxnet?q=Name:Foo");
-			await httpClient.DeleteAsync("https://jsonbox.io/testbox___jsonboxnet?q=Name:Bar");
-		}
+	public class NewtonsoftJsonBox_CreateFixture : CreateFixtureBase
+	{
+		protected override JsonBox CreateJsonBox(HttpClient client) =>
+			new NewtonsoftJsonBox(client, "testbox___jsonboxnet", new JsonSerializer());
+	}
+
+	public class SystemTextJsonBox_CreateFixture : CreateFixtureBase
+	{
+		protected override JsonBox CreateJsonBox(HttpClient client) =>
+			new SystemTextJsonBox(client, "testbox___jsonboxnet");
 	}
 }

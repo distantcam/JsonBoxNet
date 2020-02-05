@@ -1,61 +1,63 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoFixture;
+using FluentAssertions;
+using JsonBoxNet.TextJson;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RichardSzalay.MockHttp;
 
 namespace JsonBoxNet.Tests
 {
 	[TestFixture]
-	public class DeleteFixture
+	public abstract class DeleteFixtureBase
 	{
-		static readonly HttpClient httpClient = new HttpClient();
+		protected abstract JsonBox CreateJsonBox(HttpClient client);
 
-		IJsonBox jsonBox;
-
-		[SetUp]
-		public void Setup()
+		JsonBox CreateJsonBox(string path, string message)
 		{
-			var serializer = new JsonSerializer();
-			jsonBox = new NewtonsoftJsonBox(httpClient, "testbox___jsonboxnet", serializer);
-		}
-
-		async Task<string> CreateRecord()
-		{
-			var response = await httpClient.PostAsync("https://jsonbox.io/testbox___jsonboxnet",
-				new StringContent("{ \"Name\": \"Foo\", \"Age\": 13 }", System.Text.Encoding.UTF8, "application/json"));
-			var msg = await response.Content.ReadAsStringAsync();
-			var json = JObject.Parse(msg);
-			return json["_id"].Value<string>();
+			var mockHttp = new MockHttpMessageHandler();
+			mockHttp.Expect(HttpMethod.Delete, $"/testbox___jsonboxnet{path}")
+				.Respond("application/json", $"{{\"message\": \"{message}\"}}");
+			return CreateJsonBox(mockHttp.ToHttpClient());
 		}
 
 		[Test]
 		public async Task DeleteRecord()
 		{
-			var id = await CreateRecord();
+			var fixture = new Fixture();
+			var message = fixture.Create<string>();
+			var id = Guid.NewGuid().ToString();
+			var jsonBox = CreateJsonBox("/" + id, message);
 
 			var result = await jsonBox.DeleteAsync(id);
 
-			Assert.IsEmpty(await jsonBox.GetAllAsync<TestObject>());
-			Assert.AreEqual("Record removed.", result.Message);
+			result.Message.Should().Be(message);
 		}
 
 		[Test]
 		public async Task DeleteMultipleRecord()
 		{
-			var id1 = await CreateRecord();
-			var id2 = await CreateRecord();
+			var fixture = new Fixture();
+			var message = fixture.Create<string>();
+			var jsonBox = CreateJsonBox("?q=Name:Foo", message);
 
 			var result = await jsonBox.DeleteQueryAsync("Name:Foo");
 
-			Assert.IsEmpty(await jsonBox.GetAllAsync<TestObject>());
-			Assert.AreEqual("2 Records removed.", result.Message);
+			result.Message.Should().Be(message);
 		}
+	}
 
-		[TearDown]
-		public async Task Teardown()
-		{
-			await httpClient.DeleteAsync("https://jsonbox.io/testbox___jsonboxnet?q=Name:Foo");
-		}
+	public class NewtonsoftJsonBox_DeleteFixture : DeleteFixtureBase
+	{
+		protected override JsonBox CreateJsonBox(HttpClient client) =>
+			new NewtonsoftJsonBox(client, "testbox___jsonboxnet", new JsonSerializer());
+	}
+
+	public class SystemTextJsonBox_DeleteFixture : DeleteFixtureBase
+	{
+		protected override JsonBox CreateJsonBox(HttpClient client) =>
+			new SystemTextJsonBox(client, "testbox___jsonboxnet");
 	}
 }
