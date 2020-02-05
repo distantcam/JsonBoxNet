@@ -1,8 +1,8 @@
 <Project>
 
   <PropertyGroup>
+    <NoWarn>CS1591</NoWarn>
     <LangVersion>8.0</LangVersion>
-    <!-- <Nullable>enable</Nullable> -->
     <IsPackable>false</IsPackable>
 
     <RepoDir>$(SolutionDir)</RepoDir>

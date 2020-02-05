@@ -1,0 +1,15 @@
+name: .NET Core Build & Test
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      working-directory: ./source
+    - name: Run unit tests
+      run: dotnet test
+      working-directory: ./source
