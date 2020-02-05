@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build NuGet Package
       run: dotnet pack --include-symbols --configuration Release
-      working-directory: ./source
+      working-directory: ./src
     - name: Create Release
       uses: softprops/action-gh-release@v1
       env:

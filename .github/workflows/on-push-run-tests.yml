@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build with dotnet
       run: dotnet build --configuration Release
-      working-directory: ./source
+      working-directory: ./src
     - name: Run unit tests
       run: dotnet test
-      working-directory: ./source
+      working-directory: ./src
