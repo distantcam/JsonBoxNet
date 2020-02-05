@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build with dotnet
       run: dotnet build --configuration Release
       working-directory: ./src
@@ -17,8 +17,6 @@ jobs:
       run: |
         dotnet tool install --global xmldocmd
         xmldocmd src\JsonBoxNet\bin\Release\net462\JsonBoxNet.dll docs/api
-        xmldocmd src\JsonBoxNet.Newtonsoft\bin\Release\net462\JsonBoxNet.Newtonsoft.dll docs/api
-        xmldocmd src\JsonBoxNet.TextJson\bin\Release\net462\JsonBoxNet.TextJson.dll docs/api
     - name: Push changes
       run: |
         git config --local user.email "action@github.com"
