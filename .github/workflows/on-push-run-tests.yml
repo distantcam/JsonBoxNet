@@ -17,6 +17,9 @@ jobs:
       run: |
         dotnet tool install --global xmldocmd
         xmldocmd src\JsonBoxNet\bin\Release\net462\JsonBoxNet.dll docs/api
+        xmldocmd src\JsonBoxNet.Newtonsoft\bin\Release\net462\JsonBoxNet.Newtonsoft.dll docs/api
+        xmldocmd src\JsonBoxNet.TextJson\bin\Release\net462\JsonBoxNet.TextJson.dll docs/api
+      shell: cmd
     - name: Push changes
       run: |
         git config --local user.email "action@github.com"
