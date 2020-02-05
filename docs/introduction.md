@@ -10,8 +10,9 @@ A .NET library for using https://jsonbox.io/
 
 | Package Name | Version | API |
 | ------------ | :-----: | :-: |
-| JsonBoxNet | ![JsonBoxNet Nuget](https://img.shields.io/nuget/v/JsonBoxNet?style=flat-square) | [API](wiki/JsonBoxNet)
-| JsonBoxNet.Newtonsoft | ![JsonBoxNet.Newtonsoft Nuget](https://img.shields.io/nuget/v/JsonBoxNet.Newtonsoft?style=flat-square) | [API](wiki/JsonBoxNet.Newtonsoft)
+| JsonBoxNet | ![JsonBoxNet Nuget](https://img.shields.io/nuget/v/JsonBoxNet?style=flat-square) | [API](api/JsonBoxNet)
+| JsonBoxNet.Newtonsoft | ![JsonBoxNet.Newtonsoft Nuget](https://img.shields.io/nuget/v/JsonBoxNet.Newtonsoft?style=flat-square) | [API](api/JsonBoxNet.Newtonsoft)
+| JsonBoxNet.TextJson | ![JsonBoxNet.TextJson Nuget](https://img.shields.io/nuget/v/JsonBoxNet.TextJson?style=flat-square) | [API](api/JsonBoxNet.TextJson)
 
 ## Contact & Support
 

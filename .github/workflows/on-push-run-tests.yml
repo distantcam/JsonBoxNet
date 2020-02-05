@@ -13,3 +13,18 @@ jobs:
     - name: Run unit tests
       run: dotnet test
       working-directory: ./src
+    - name: Run xmldocmd
+      run: |
+        dotnet tool install --global xmldocmd
+        xmldocmd src\JsonBoxNet\bin\Release\net462\JsonBoxNet.dll docs/api
+        xmldocmd src\JsonBoxNet.Newtonsoft\bin\Release\net462\JsonBoxNet.Newtonsoft.dll docs/api
+        xmldocmd src\JsonBoxNet.TextJson\bin\Release\net462\JsonBoxNet.TextJson.dll docs/api
+    - name: Push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Doco changes" -a  || echo "nothing to commit"
+        remote="https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
+        branch="${GITHUB_REF:11}"
+        git push "${remote}" ${branch} || echo "nothing to push"
+      shell: bash

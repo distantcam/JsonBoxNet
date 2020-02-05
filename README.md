@@ -16,6 +16,10 @@
 PM> Install-Package JsonBoxNet.Newtonsoft
 # or
 > dotnet add package JsonBoxNet.Newtonsoft
+
+PM> Install-Package JsonBoxNet.TextJson
+# or
+> dotnet add package JsonBoxNet.TextJson
 ```
 
 ## Nuget Packages
@@ -24,6 +28,7 @@ PM> Install-Package JsonBoxNet.Newtonsoft
 | ------------ | :-----: | :-: |
 | JsonBoxNet | ![JsonBoxNet Nuget](https://img.shields.io/nuget/v/JsonBoxNet) | [API](wiki/JsonBoxNet)
 | JsonBoxNet.Newtonsoft | ![JsonBoxNet.Newtonsoft Nuget](https://img.shields.io/nuget/v/JsonBoxNet.Newtonsoft) | [API](wiki/JsonBoxNet.Newtonsoft)
+| JsonBoxNet.TextJson | ![JsonBoxNet.TextJson Nuget](https://img.shields.io/nuget/v/JsonBoxNet.TextJson) | [API](wiki/JsonBoxNet.TextJson)
 
 ## Icon
 
