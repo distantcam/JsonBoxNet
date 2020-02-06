@@ -2,7 +2,6 @@
 
   <PropertyGroup Condition="'$(IsPackageProject)' == 'true' And '$(Configuration)' == 'Release'">
     <IsPackable>true</IsPackable>
-    <Version>0.5.0</Version>
     <DocumentationFile>$(OutDir)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 

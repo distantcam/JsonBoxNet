@@ -5,6 +5,8 @@
     <LangVersion>8.0</LangVersion>
     <IsPackable>false</IsPackable>
 
+		<Version>0.5.1</Version>
+
     <RepoDir>$(SolutionDir)</RepoDir>
     <RepoDir Condition="Exists('$(SolutionDir)..\.git')">$(SolutionDir)..\</RepoDir>
     <RepoOwner>distantcam</RepoOwner>
