@@ -13,16 +13,21 @@ jobs:
     - name: Run unit tests
       run: dotnet test
       working-directory: ./src
-    - name: Run xmldocmd
+    - name: Generate documentation
       run: |
+        rd docs\api /s /q
         dotnet tool install --global xmldocmd
-        xmldocmd src\JsonBoxNet\bin\Release\net462\JsonBoxNet.dll docs/api
-        xmldocmd src\JsonBoxNet.Newtonsoft\bin\Release\net462\JsonBoxNet.Newtonsoft.dll docs/api
+        dotnet tool install --global InheritDocTool
+        InheritDoc -b src -o
+        xmldocmd src\JsonBoxNet\bin\Release\netstandard2.0\JsonBoxNet.dll docs/api
+        xmldocmd src\JsonBoxNet.Newtonsoft\bin\Release\netstandard2.0\JsonBoxNet.Newtonsoft.dll docs/api
+        xmldocmd src\JsonBoxNet.TextJson\bin\Release\netstandard2.0\JsonBoxNet.TextJson.dll docs/api
       shell: cmd
     - name: Push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git add docs/api
         git commit -m "Doco changes" -a  || echo "nothing to commit"
         remote="https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
         branch="${GITHUB_REF:11}"

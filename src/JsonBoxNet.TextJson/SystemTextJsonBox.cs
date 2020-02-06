@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace JsonBoxNet.TextJson
+namespace JsonBoxNet
 {
 	public class SystemTextJsonBox : JsonBox
 	{

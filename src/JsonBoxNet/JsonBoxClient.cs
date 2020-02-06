@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace JsonBoxNet
 {
+	/// <summary>
+	/// An implementation of <see cref="IJsonBoxClient"/> that just returns strings, for use with a custom JSON serializer.
+	/// </summary>
 	public class JsonBoxClient : IJsonBoxClient
 	{
 		readonly HttpClient httpClient;
@@ -27,16 +30,34 @@ namespace JsonBoxNet
 			baseUrl = "https://jsonbox.io/" + boxId;
 		}
 
+		/// <inheritdoc/>
 		public Task<string> CreateAsync(string json) => HandleRequest(HttpMethod.Post, baseUrl, json);
+
+		/// <inheritdoc/>
 		public Task<string> CreateAsync(string collection, string json) => HandleRequest(HttpMethod.Post, CreateCollectionUrl(collection), json);
+
+		/// <inheritdoc/>
 		public Task<string> UpdateAsync(string id, string json) => HandleRequest(HttpMethod.Put, CreateIdUrl(id), json);
+
+		/// <inheritdoc/>
 		public Task<string> DeleteAsync(string id) => HandleRequest(HttpMethod.Delete, CreateIdUrl(id));
+
+		/// <inheritdoc/>
 		public Task<string> DeleteQueryAsync(params string[] queries) => HandleRequest(HttpMethod.Delete, AppendFilter(baseUrl, null, null, null, queries));
 
+		/// <inheritdoc/>
 		public Task<string> GetAsync(string sort = null, int? skip = null, int? limit = null, params string[] queries) => HandleRequest(HttpMethod.Get, AppendFilter(baseUrl, sort, skip, limit, queries));
+
+		/// <inheritdoc/>
 		public Task<string> GetAllAsync() => HandleRequest(HttpMethod.Get, baseUrl);
+
+		/// <inheritdoc/>
 		public Task<string> GetCollectionAsync(string collection) => HandleRequest(HttpMethod.Get, CreateCollectionUrl(collection));
+
+		/// <inheritdoc/>
 		public Task<string> GetCollectionAsync(string collection, string sort = null, int? skip = null, int? limit = null, params string[] queries) => HandleRequest(HttpMethod.Get, AppendFilter(CreateCollectionUrl(collection), sort, skip, limit, queries));
+
+		/// <inheritdoc/>
 		public Task<string> GetByIdAsync(string id) => HandleRequest(HttpMethod.Get, CreateIdUrl(id));
 
 		async Task<string> HandleRequest(HttpMethod method, string url, string json = null)

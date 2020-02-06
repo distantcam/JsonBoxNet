@@ -1,7 +1,13 @@
 ﻿namespace JsonBoxNet
 {
+	/// <summary>
+	/// An object that represents a message from the API.
+	/// </summary>
 	public interface IJsonBoxMessage
-	{
-		string Message { get; }
-	}
+    {
+        /// <summary>
+        /// The message.
+        /// </summary>
+        string Message { get; }
+    }
 }

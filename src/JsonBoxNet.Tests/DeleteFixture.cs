@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
-using JsonBoxNet.TextJson;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;
