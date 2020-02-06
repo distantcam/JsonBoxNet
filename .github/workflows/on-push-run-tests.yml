@@ -21,9 +21,9 @@ jobs:
         InheritDoc -b src -o
         cd src/JsonBoxNet/bin/Release/net462
         xmldocmd JsonBoxNet.dll ../../../../../docs/api
-        cd src/JsonBoxNet.Newtonsoft/bin/Release/net462
+        cd ../../../../../src/JsonBoxNet.Newtonsoft/bin/Release/net462
         xmldocmd JsonBoxNet.Newtonsoft.dll ../../../../../docs/api
-        cd src/JsonBoxNet.TextJson/bin/Release/net462
+        cd ../../../../../src/JsonBoxNet.TextJson/bin/Release/net462
         xmldocmd JsonBoxNet.TextJson.dll ../../../../../docs/api
       shell: cmd
     - name: Push changes
