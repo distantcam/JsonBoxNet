@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(IsPackable)' == 'true'">
-    <Optimize>False</Optimize>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Optimize>true</Optimize>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
 
 </Project>

@@ -12,6 +12,8 @@
 
     <Authors>Cameron MacFarland</Authors>
     <Description>A client for using https://jsonbox.io/</Description>
+
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
 </Project>
